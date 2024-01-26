@@ -28,16 +28,26 @@ pub async fn callback_handler(bot: AtriBot, state: Arc<AtriState>, q: CallbackQu
 
   let data: Vec<_> = data.split(' ').collect();
 
+  if data.len() < 2 {
+    tracing::error!(?data, "Unknown callback data");
+    return Ok(());
+  }
+
   match data[0] {
     "c" => {
       bot.answer_callback_query(q.id).await?;
-      let search_id: usize = data[1].parse().unwrap();
+      let search_id: usize = data[1].parse()?;
       state.drop_search(search_id);
       bot
         .edit_message_text(msg.chat.id, msg.id, "已取消。")
         .await?;
     }
     "g" => {
+      if data.len() != 3 {
+        tracing::error!(?data, "Unknown callback data");
+        return Ok(());
+      }
+
       bot.answer_callback_query(q.id).await?;
 
       let Ok(res) = search(&state.meili_client, data[1], 1, 0).await else {
@@ -87,7 +97,7 @@ pub async fn callback_handler(bot: AtriBot, state: Arc<AtriState>, q: CallbackQu
     }
     "p" | "r" | "s" => {
       bot.answer_callback_query(q.id).await?;
-      let search_id: usize = data[1].parse().unwrap();
+      let search_id: usize = data[1].parse()?;
       let search_mode = match data[0] {
         "p" => SearchMode::PrevPage,
         "r" => SearchMode::Direct,
