@@ -6,3 +6,5 @@ pub use tracing;
 
 pub use search::*;
 pub use setup::*;
+
+pub type SearchResults = meilisearch_sdk::SearchResults<Game>;

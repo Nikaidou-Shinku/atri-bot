@@ -1,7 +1,9 @@
 use anyhow::Result;
-use meilisearch_sdk::{Client as MeiliClient, SearchResults};
+use meilisearch_sdk::Client as MeiliClient;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
+
+use crate::SearchResults;
 
 #[derive(Deserialize, Serialize)]
 pub struct Game {
@@ -35,7 +37,7 @@ pub async fn init_index(client: &MeiliClient) -> Result<()> {
 
   let games: Vec<_> = games
     .into_iter()
-    .enumerate()
+    .enumerate() // TODO: maybe use hash as primary key
     .filter_map(|(id, game)| {
       let mut paths: Vec<_> = game.name.split('/').map(|p| p.to_owned()).collect();
       if paths[0] == "" {
@@ -72,7 +74,7 @@ pub async fn search(
   keyword: impl AsRef<str>,
   limit: usize,
   offset: usize,
-) -> Result<SearchResults<Game>> {
+) -> Result<SearchResults> {
   Ok(
     client
       .index("games")

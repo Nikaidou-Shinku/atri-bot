@@ -5,7 +5,9 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.79"
+lru = "0.12.1"
 url = "2.5.0"
+parking_lot = "0.12.1"
 tokio = { version = "1.35.1", features = [
   "rt-multi-thread",
   "macros",
