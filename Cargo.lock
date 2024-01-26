@@ -63,13 +63,30 @@ name = "atri"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "atri-core",
+ "teloxide",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "atri-core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
  "meilisearch-sdk",
  "reqwest",
  "serde",
- "teloxide",
- "tokio",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "atri-init"
+version = "0.1.0"
+dependencies = [
+ "atri-core",
+ "tokio",
 ]
 
 [[package]]
@@ -140,9 +157,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "chrono"
-version = "0.4.32"
+version = "0.4.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41daef31d7a747c5c847246f36de49ced6f7403b4cdabc807a97b5cc184cda7a"
+checksum = "9f13690e35a5e4ace198e7beea2895d29f3a9cc55015fcebe6336bd2010af9eb"
 dependencies = [
  "num-traits",
 ]
@@ -500,6 +517,12 @@ name = "hashbrown"
 version = "0.14.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
+
+[[package]]
+name = "heck"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "95505c38b4572b2d910cecb0281560f54b440a19336cbbcb27bf6ce6adc6f5a8"
 
 [[package]]
 name = "hermit-abi"
@@ -950,18 +973,18 @@ checksum = "e3148f5046208a5d56bcfc03053e3ca6334e51da8dfb19b6cdc8b306fae3283e"
 
 [[package]]
 name = "pin-project"
-version = "1.1.3"
+version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fda4ed1c6c173e3fc7a83629421152e01d7b1f9b7f65fb301e490e8cfc656422"
+checksum = "0302c4a0442c456bd56f841aee5c3bfd17967563f6fadc9ceb9f9c23cf3807e0"
 dependencies = [
  "pin-project-internal",
 ]
 
 [[package]]
 name = "pin-project-internal"
-version = "1.1.3"
+version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4359fd9c9171ec6e8c62926d6faaf553a8dc3f64e1507e76da7911b4f6a04405"
+checksum = "266c042b60c9c76b8d53061e52b2e0d1116abc57cefc8c5cd671619a56ac3690"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1288,15 +1311,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "signal-hook-registry"
-version = "1.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d8229b473baa5980ac72ef434c4415e70c4b5e71b423043adb4ba059f89c99a1"
-dependencies = [
- "libc",
-]
-
-[[package]]
 name = "slab"
 version = "0.4.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1433,6 +1447,7 @@ dependencies = [
  "serde_json",
  "serde_with_macros",
  "teloxide-core",
+ "teloxide-macros",
  "thiserror",
  "tokio",
  "tokio-stream",
@@ -1470,6 +1485,18 @@ dependencies = [
  "url",
  "uuid",
  "vecrem",
+]
+
+[[package]]
+name = "teloxide-macros"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0f1d653b093dba5e44cada57a516f572167df37b8a619443e59c8c517bb6d804"
+dependencies = [
+ "heck",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -1559,7 +1586,6 @@ dependencies = [
  "num_cpus",
  "parking_lot",
  "pin-project-lite",
- "signal-hook-registry",
  "socket2 0.5.5",
  "tokio-macros",
  "windows-sys 0.48.0",

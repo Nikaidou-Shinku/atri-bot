@@ -1,5 +1,5 @@
 use anyhow::Result;
-use meilisearch_sdk::Client as MeiliClient;
+use meilisearch_sdk::{Client as MeiliClient, SearchResults};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
@@ -8,10 +8,9 @@ pub struct Game {
   pub id: usize,
   pub name: String,
   pub paths: Vec<String>,
-  size: String,
+  pub size: String,
 }
 
-// only need to be run once
 #[tracing::instrument(skip_all)]
 pub async fn init_index(client: &MeiliClient) -> Result<()> {
   #[derive(Deserialize)]
@@ -42,7 +41,7 @@ pub async fn init_index(client: &MeiliClient) -> Result<()> {
       if paths[0] == "" {
         paths.remove(0);
       } else {
-        tracing::warn!("No prefix empty string");
+        tracing::warn!(game = game.name, "No prefix empty string");
       }
 
       if paths.is_empty() {
@@ -66,4 +65,22 @@ pub async fn init_index(client: &MeiliClient) -> Result<()> {
   client.index("games").add_documents(&games, None).await?;
 
   Ok(())
+}
+
+pub async fn search(
+  client: &MeiliClient,
+  keyword: impl AsRef<str>,
+  limit: usize,
+  offset: usize,
+) -> Result<SearchResults<Game>> {
+  Ok(
+    client
+      .index("games")
+      .search()
+      .with_query(keyword.as_ref())
+      .with_limit(limit)
+      .with_offset(offset)
+      .execute::<Game>()
+      .await?,
+  )
 }

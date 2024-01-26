@@ -1,33 +1,8 @@
-[package]
-name = "atri"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+resolver = "2"
+members = ["atri-core", "atri-init", "atri"]
 
 [profile.release]
 strip = true
 lto = true
 codegen-units = 1
-
-[dependencies]
-anyhow = "1.0.79"
-serde = { version = "1.0.195", features = ["derive"] }
-tokio = { version = "1.35.1", features = [
-  "rt-multi-thread",
-  "macros",
-  "parking_lot",
-] }
-meilisearch-sdk = "0.24.3"
-
-# logging
-tracing = "0.1.40"
-tracing-subscriber = { version = "0.3.18", features = ["parking_lot"] }
-
-[dependencies.reqwest]
-version = "0.11.23"
-default-features = false
-features = ["rustls-tls-webpki-roots", "json"]
-
-[dependencies.teloxide]
-version = "0.12.2"
-default-features = false
-features = ["ctrlc_handler", "throttle", "cache-me", "nightly", "rustls"]
