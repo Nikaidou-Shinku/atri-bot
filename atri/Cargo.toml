@@ -4,11 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.79"
-lru = "0.12.1"
+anyhow = "1.0.80"
+lru = "0.12.3"
 url = "2.5.0"
 parking_lot = "0.12.1"
-tokio = { version = "1.35.1", features = [
+tokio = { version = "1.36.0", features = [
   "rt-multi-thread",
   "macros",
   "parking_lot",
